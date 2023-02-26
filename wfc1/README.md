@@ -1,4 +1,4 @@
-# Step 1
+# WFC 1
 
 This is code was for me to understand the wave function collapse algorithm and start gauging the difficulty of generating these puzzles
 
