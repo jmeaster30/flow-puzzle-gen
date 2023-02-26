@@ -1,0 +1,98 @@
+\documentclass[10pt,a4paper,openany]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\title{Understanding the Puzzles of Flow}
+\author{John Easterday}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+%This paragraph can be a little more fleshed out of my motivation
+I really like this mobile game called Flow and playing it has piqued my interest in various properties about the puzzles. Flow gameplay is as follows:
+	
+	
+\begin{enumerate}
+	\item You are given a set of points on a 2d square grid of cells
+	\item Each point is given a color and matches 1 and only 1 other point
+	\item The goal is to connect each of the points to it's partner point
+	\item The connections may not intersect (cannot occupy the same cell on the grid as another connection)
+	\item The connections must fill the grid completely (all cells in the grid contain either a connection or is one of the endpoints)
+\end{enumerate}
+	
+This is a pretty straight forward set of rules but BigDuckGames has challenged some of these rules in other games. For example, Flow Hexes is on a hex grid instead of a square grid and Flow Bridges allows connections to cross at particular cells. Now that you know the rules of the game, here are the properties that I found interesting:
+	
+\begin{enumerate}
+	\item All puzzles are solvable and the solutions are unique
+	\item All 2x2 sets of cells have at least 2 colors
+\end{enumerate}
+
+\section{Gathering Solutions for Puzzles in the Game}
+
+I wanted utilize the existing solutions to understand the problem better and do some processing on known solutions.
+
+I got the solutions from the game files of the app. Pulled the APK, decompiled it and found the files in the assets.
+
+Understanding the file format.
+
+\section{Generating Puzzles}
+
+There are a few algorithms I would like to explore for generating these puzzles. Some have more obvious advantages over others but it doesn't hurt to try them all. The algorithms are:
+\begin{enumerate}
+  \item Wave Function Collapse
+  \item Modified Maze Generation algorithms
+  \item Hamiltonian paths
+  \item Brute Force
+\end{enumerate}
+
+Wave function collapse works by being provided with certain constraints and it randomly propagates those constraints to produce randomized outputs that doesn't contradict the provided constraints.
+Since our problem has many of these rules that the puzzle must follow, this seems like a very promising approach. 
+Maze Generation algorithms seem interesting because maze generation algorithms have to fully cover a grid. 
+Sadly, mazes usually have all their "hallways" connected to each other. Similar to maze generation algorithms, hamiltonian paths seem
+interesting because they fully cover the grid. However, they have the same problem as maze generation algorithms where each cell is guaranteed connected to all other cells.
+
+\subsection{Wave Function Collapse}
+
+The first part of the wave function collapse algorithm is defining the constraints to use. 
+I began with only allowing the types of cells that would be valid for a puzzle:
+
+% Add pictures of these instead of listing them
+\begin{itemize}
+  \item LEFT
+  \item RIGHT
+  \item UP
+  \item DOWN
+  \item UP DOWN (vertical line)
+  \item LEFT RIGHT (horizontal line)
+  \item LEFT DOWN
+  \item RIGHT DOWN
+  \item LEFT UP
+  \item RIGHT UP
+\end{itemize}
+
+This was a good start from what I thought because we want to generate puzzles that only have these cells in them. However, I quickly noticed an issue.
+After writing the collapse algorithm I tested it out and could almost never generate a valid puzzle. It would often collapse some cells into a state where no possible connection could be made.
+
+So, some modifications had to be made. I then changed the constraints to allow for any connection on a grid, even if the conenction form was not valid for our puzzle.
+These new constraints let me almost always generate a proper filled out grid of cells but the results were still not valid puzzles.
+Occasionally it would generate a grid with holes on no possible states being valid even though there should always be one so I am guessing this was a bug in my code.
+
+Now, we have a method to produce a set of connections with endpoints that fully cover a 2d grid. This is pretty close but there is still one step where we have to add in the constraints that only 2 endpoints can be connected and there should be no loops.
+
+\subsection{Modified Maze Generation}
+
+\subsection{Brute Force}
+
+
+
+\section{Unique Puzzle Solutions}
+
+\section{Wrinkle-Free Connections}
+
+\end{document}

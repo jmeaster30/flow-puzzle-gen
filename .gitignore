@@ -1,0 +1,8 @@
+flowsq
+
+document.aux
+document.log
+document.pdf
+
+.vscode
+__pycache__
